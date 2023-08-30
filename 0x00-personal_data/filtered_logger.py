@@ -46,7 +46,7 @@ def filter_datum(fields, redaction, message, separator):
     return filter_mess
 
 
-def get_logger():
+def get_logger() -> logging.Logger:
     """ Return a logging.Logger object """
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)

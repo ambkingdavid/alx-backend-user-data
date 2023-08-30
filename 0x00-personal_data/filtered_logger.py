@@ -13,14 +13,18 @@ PII_FIELDS = ("ip", "email", "phone", "password", "ssn")
 
 
 class RedactingFormatter(logging.Formatter):
-    """ Redacting Formatter class
-        """
+    """
+    Redacting Formatter class
+    """
 
     REDACTION = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
 
     def __init__(self, fields: List[str]):
+        """
+        initialise
+        """
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
 
@@ -37,13 +41,13 @@ def filter_datum(fields, redaction, message, separator):
     """
     filter method
     """
-    pattern = fr'({"|".join(map(re.escape, fields))})=[^{separator}]+'
-    return re.sub(pattern, f'\\1={redaction}', message)
+    pattern = fr'({"|".join(fields)})=[^{separator}]+'
+    filter_mess = re.sub(pattern, f'\\1={redaction}', message)
+    return filter_mess
 
 
 def get_logger():
     """ Return a logging.Logger object """
-    # Create the logger
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
     logger.propagate = False
@@ -63,7 +67,6 @@ def get_db():
     """
     get database
     """
-    # Retrieve database credentials from environment variables
     db_username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
     db_password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
     db_host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")

@@ -12,7 +12,6 @@ from typing import List
 PII_FIELDS = ("ip", "email", "phone", "password", "ssn")
 
 
-
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
         """
@@ -41,25 +40,24 @@ def filter_datum(fields, redaction, message, separator):
     pattern = fr'({"|".join(map(re.escape, fields))})=[^{separator}]+'
     return re.sub(pattern, f'\\1={redaction}', message)
 
+
 def get_logger():
     """ Return a logging.Logger object """
-    
     # Create the logger
     logger = logging.getLogger("user_data")
-    logger.setLevel(logging.INFO)  # Set the log level to INFO
-    
-    # Prevent messages from propagating to other loggers
+    logger.setLevel(logging.INFO)
     logger.propagate = False
-    
+
     # Create a StreamHandler with the RedactingFormatter
     handler = logging.StreamHandler()
     formatter = RedactingFormatter(PII_FIELDS)
     handler.setFormatter(formatter)
-    
+
     # Add the handler to the logger
     logger.addHandler(handler)
-    
+
     return logger
+
 
 def get_db():
     """
@@ -73,7 +71,8 @@ def get_db():
 
     # Check if the database name is provided
     if db_name is None:
-        raise ValueError("PERSONAL_DATA_DB_NAME environment variable is not set.")
+        raise ValueError("PERSONAL_DATA_DB_NAME environment\
+                         variable is not set.")
 
     # Create a connection to the database
     try:

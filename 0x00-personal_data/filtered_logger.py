@@ -7,7 +7,7 @@ import re
 import logging
 import os
 import mysql.connector
-from typing import List
+from typing import List, Callable
 
 PII_FIELDS = ("ip", "email", "phone", "password", "ssn")
 
@@ -47,7 +47,7 @@ def filter_datum(fields: List[str], redaction: str, message: str,
     return filter_mess
 
 
-def get_logger() -> logging.Logger:
+def get_logger() -> Callable[[], logging.Logger]:
     """ Return a logging.Logger object """
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)

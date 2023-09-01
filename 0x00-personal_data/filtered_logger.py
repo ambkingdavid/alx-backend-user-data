@@ -69,16 +69,12 @@ def get_logger(none) -> logging.Logger:
     return logger
 
 
-def get_db() -> Optional[Union[mysql.connector.MySQLConnection, None]]:
+def get_db() -> mysql.connector.connection.MySQLConnection:
     """:returns a secured connection"""
-    try:
-        connection = mysql.connector.connect(
-            host=HOST,
-            user=USERNAME,
-            password=PASSWORD,
-            database=DATABASE
-        )
-    # Continue with your database operations here
-    except mysql.connector.Error as err:
-        print(f"Error: {err}")
+    connection = mysql.connector.connect(
+        host=HOST,
+        user=USERNAME,
+        password=PASSWORD,
+        database=DATABASE
+    )
     return connection

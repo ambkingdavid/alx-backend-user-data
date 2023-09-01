@@ -11,6 +11,11 @@ from typing import List, Optional, Any, Union
 
 PII_FIELDS = ("name", "email", "phone", "password", "ssn")
 
+USERNAME: str = os.getenv("PERSONAL_DATA_DB_USERNAME")
+PASSWORD: str = os.getenv("PERSONAL_DATA_DB_PASSWORD")
+HOST: str = os.getenv("PERSONAL_DATA_DB_HOST")
+DATABASE: str = os.getenv("PERSONAL_DATA_DB_NAME")
+
 
 class RedactingFormatter(logging.Formatter):
     """
@@ -65,33 +70,15 @@ def get_logger(none) -> logging.Logger:
 
 
 def get_db() -> Optional[Union[mysql.connector.MySQLConnection, None]]:
-    """
-    Get a database connection.
-
-    Returns:
-        Union[mysql.connector.MySQLConnection, None]: A database
-        connection or None if there's an error.
-    """
-    db_username: str = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
-    db_password: str = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
-    db_host: str = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
-    db_name: Optional[str] = os.getenv("PERSONAL_DATA_DB_NAME")
-
-    # Check if the database name is provided
-    if db_name is None:
-        raise ValueError(
-            "PERSONAL_DATA_DB_NAME environment variable is not set.")
-
-    # Create a connection to the database
+    """:returns a secured connection"""
     try:
-        conn = mysql.connector.connect(
-            user=db_username,
-            password=db_password,
-            host=db_host,
-            database=db_name
+        connection = mysql.connector.connect(
+            host=HOST,
+            user=USERNAME,
+            password=PASSWORD,
+            database=DATABASE
         )
-        return conn
+    # Continue with your database operations here
     except mysql.connector.Error as err:
-        # Handle any connection errors here
         print(f"Error: {err}")
-        return None
+    return connection

@@ -9,7 +9,7 @@ import os
 import mysql.connector
 from typing import List, Optional, Any, Union
 
-PII_FIELDS = ("ip", "email", "phone", "password", "ssn")
+PII_FIELDS = ("name", "email", "phone", "password", "ssn")
 
 
 class RedactingFormatter(logging.Formatter):

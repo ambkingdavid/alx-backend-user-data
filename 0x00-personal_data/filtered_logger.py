@@ -52,7 +52,7 @@ def filter_datum(fields: List[str], redaction: str, message: str,
     return filter_mess
 
 
-def get_logger(none) -> logging.Logger:
+def get_logger() -> logging.Logger:
     """ Return a logging.Logger object """
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
@@ -70,7 +70,7 @@ def get_logger(none) -> logging.Logger:
 
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
-    """:returns a secured connection"""
+    """establish a connection to db"""
     connection = mysql.connector.connect(
         host=HOST,
         user=USERNAME,
@@ -78,3 +78,34 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         database=DATABASE
     )
     return connection
+
+
+def main():
+    # Set up logging
+    logger = get_logger()
+
+    try:
+        # Obtain a database connection
+        connection = get_db()
+
+        # Create a cursor
+        cursor = connection.cursor(dictionary=True)
+
+        # Retrieve all rows from the 'users' table
+        cursor.execute("SELECT * FROM users")
+
+        # Loop through each row
+        for user in cursor.fetchall():
+            log_message = "; ".join([f"{key}={value}" for key, value in user.items()])
+            logger.info(log_message)
+
+    except Exception as e:
+        logging.error(f"Error: {e}")
+    finally:
+        if 'connection' in locals() and connection.is_connected():
+            cursor.close()
+            connection.close()
+
+# Ensure only the main function runs when the module is executed
+if __name__ == "__main__":
+    main()

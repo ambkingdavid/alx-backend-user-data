@@ -44,14 +44,16 @@ def before_request():
 
 
 @app.errorhandler(404)
-def not_found(error) -> tuple[Response, int]:
+def not_found(error) -> Response:
     """ Not found handler
     """
-    return jsonify({"error": "Not found"}), 404
+    response = jsonify({"error": "Not found"})
+    response.status_code = 404
+    return response
 
 
 @app.errorhandler(401)
-def unauthorized_error(error) -> tuple[Response, int]:
+def unauthorized_error(error) -> Response:
     """
     Unauthorized handler
     """
@@ -61,7 +63,7 @@ def unauthorized_error(error) -> tuple[Response, int]:
 
 
 @app.errorhandler(403)
-def forbidden_error(error) -> tuple[Response, int]:
+def forbidden_error(error) -> Response:
     response = jsonify({"error": "Forbidden"})
     response.status_code = 403
     return response

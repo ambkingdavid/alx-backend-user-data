@@ -1,21 +1,8 @@
 #!/usr/bin/env python3
 """ Module of Index views
 """
-from flask import jsonify, abort
+from flask import jsonify, abort, Response
 from api.v1.views import app_views
-import json
-
-# Create a dictionary with the desired structure
-error_data = {
-    "error": "Unauthorized"
-}
-
-# Convert the dictionary to a JSON string with indentation
-json_string = json.dumps(error_data, indent=2)
-
-# Print the JSON string
-print(json_string)
-
 
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
@@ -28,7 +15,7 @@ def status() -> str:
 
 
 @app_views.route('/stats/', strict_slashes=False)
-def stats() -> str:
+def stats() -> Response:
     """ GET /api/v1/stats
     Return:
       - the number of each objects
@@ -40,7 +27,7 @@ def stats() -> str:
 
 
 @app_views.route('/unauthorized', strict_slashes=False)
-def unauthorised() -> str:
+def unauthorised() -> Response:
     """
     GET /api/v1/unauthorised
     """
@@ -48,7 +35,7 @@ def unauthorised() -> str:
 
 
 @app_views.route('/forbidden', methods=['GET'])
-def trigger_forbidden_error():
+def trigger_forbidden_error() -> Response:
     """
     GET /api/v1/forbidden
     """

@@ -4,7 +4,7 @@ Route module for the API
 """
 from os import getenv
 from api.v1.views import app_views
-from flask import Flask, jsonify, abort, request
+from flask import Flask, jsonify, abort, request, Response
 from flask_cors import (CORS, cross_origin)
 import os
 import logging
@@ -24,21 +24,6 @@ if auth_type == "auth":
 elif auth_type == "basic_auth":
     from api.v1.auth.basic_auth import BasicAuth
     auth = BasicAuth()
-
-log_file = 'app.log'  # logger file
-handler = logging.FileHandler(log_file)
-app.logger.addHandler(handler)
-app.logger.setLevel(logging.INFO)
-
-
-@app.before_request
-def log_request_path():
-    # Log the request path
-    app.logger.info(f"Request Path: {request.path}")
-    try:
-        app.logger.info(f"header: {auth.authorization_header(request)}")
-    except AttributeError:
-        pass
 
 
 @app.before_request
@@ -60,14 +45,14 @@ def before_request():
 
 
 @app.errorhandler(404)
-def not_found(error) -> str:
+def not_found(error) -> tuple[Response, int]:
     """ Not found handler
     """
     return jsonify({"error": "Not found"}), 404
 
 
 @app.errorhandler(401)
-def unauthorized_error(error) -> str:
+def unauthorized_error(error) -> tuple[Response, int]:
     """
     Unauthorized handler
     """
@@ -77,7 +62,7 @@ def unauthorized_error(error) -> str:
 
 
 @app.errorhandler(403)
-def forbidden_error(error):
+def forbidden_error(error) -> tuple[Response, int]:
     response = jsonify({"error": "Forbidden"})
     response.status_code = 403
     return response

@@ -57,14 +57,17 @@ def unauthorized_error(error) -> Response:
     """
     Unauthorized handler
     """
-    response = jsonify({"error": "Unauthorized"})
+    response = jsonify(error.description)
     response.status_code = 401
     return response
 
 
 @app.errorhandler(403)
 def forbidden_error(error) -> Response:
-    response = jsonify({"error": "Forbidden"})
+    """
+    handle forbidden error
+    """
+    response = jsonify(error.description)
     response.status_code = 403
     return response
 

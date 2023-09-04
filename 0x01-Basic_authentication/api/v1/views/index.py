@@ -3,6 +3,19 @@
 """
 from flask import jsonify, abort
 from api.v1.views import app_views
+import json
+
+# Create a dictionary with the desired structure
+error_data = {
+    "error": "Unauthorized"
+}
+
+# Convert the dictionary to a JSON string with indentation
+json_string = json.dumps(error_data, indent=2)
+
+# Print the JSON string
+print(json_string)
+
 
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
@@ -36,4 +49,7 @@ def unauthorised() -> str:
 
 @app_views.route('/forbidden', methods=['GET'])
 def trigger_forbidden_error():
+    """
+    GET /api/v1/forbidden
+    """
     abort(403)

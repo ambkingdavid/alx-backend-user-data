@@ -7,7 +7,6 @@ from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request, Response
 from flask_cors import (CORS, cross_origin)
 import os
-import logging
 
 app = Flask(__name__)
 app.register_blueprint(app_views)

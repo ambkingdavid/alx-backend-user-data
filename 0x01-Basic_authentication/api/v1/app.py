@@ -7,6 +7,8 @@ from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request, Response
 from flask_cors import (CORS, cross_origin)
 import os
+import logging
+
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
@@ -24,6 +26,10 @@ elif auth_type == "basic_auth":
     from api.v1.auth.basic_auth import BasicAuth
     auth = BasicAuth()
 
+# auth.logger = logging.getLogger()
+# auth.logger.setLevel(logging.DEBUG)
+# auth.logger.addHandler(logging.StreamHandler())
+
 
 @app.before_request
 def before_request():
@@ -31,20 +37,30 @@ def before_request():
     function to be called before each request is handled
     """
     if auth is None:
+        # auth.logger.info("auth is none")
         return
 
     if not auth.require_auth(request.path, excluded_paths):
+        # auth.logger.info(f"request: {request.path}")
         return
 
     if auth.authorization_header(request) is None:
-        abort(401)
+        # auth.logger.info("No header found")
+        msg = {
+            "error": "Unauthorized"
+        }
+        abort(401, msg)
 
     if auth.current_user(request) is None:
-        abort(403)
+        # auth.logger.info("Cannot retrieve user")
+        msg = {
+            "error": "Forbidden"
+        }
+        abort(403, msg)
 
 
 @app.errorhandler(404)
-def not_found() -> str:
+def not_found(error) -> str:
     """ Not found handler
     """
     response = jsonify({"error": "Not found"})

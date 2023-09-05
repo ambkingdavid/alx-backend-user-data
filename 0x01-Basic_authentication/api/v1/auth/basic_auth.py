@@ -80,3 +80,14 @@ class BasicAuth(Auth):
         except IndexError:
             return None
         return user
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """
+        define the current user
+        """
+        header = self.authorization_header(request)
+        encode_header = self.extract_base64_authorization_header(header)
+        decoded_header = self.decode_base64_authorization_header(encode_header)
+        user = self.extract_user_credentials(decoded_header)
+        user = self.user_object_from_credentials(user[0], user[1])
+        return user

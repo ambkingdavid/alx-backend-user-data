@@ -11,14 +11,20 @@ class Auth():
     """
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """
-        define a require path method
+        Check if authentication is required for a given 
+        path based on excluded paths.
         """
         if path is None or not excluded_paths:
             return True
-        sanitized_excluded_paths = [p.rstrip('/') + '/'
-                                    for p in excluded_paths]
-        sanitized_path = path.rstrip('/') + '/'
-        return sanitized_path not in sanitized_excluded_paths
+
+        for excluded_path in excluded_paths:
+            if excluded_path.endswith('*') and path.startswith(excluded_path[:-1]):
+                return False
+            elif path == excluded_path.rstrip('/'):
+                return False
+
+        return True
+
 
     def authorization_header(self, request=None) -> str:
         """

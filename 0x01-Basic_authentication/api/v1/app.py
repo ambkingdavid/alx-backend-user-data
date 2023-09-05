@@ -44,7 +44,7 @@ def before_request():
 
 
 @app.errorhandler(404)
-def not_found(error) -> Response:
+def not_found() -> str:
     """ Not found handler
     """
     response = jsonify({"error": "Not found"})
@@ -53,7 +53,7 @@ def not_found(error) -> Response:
 
 
 @app.errorhandler(401)
-def unauthorized_error(error) -> Response:
+def unauthorized_error(error) -> str:
     """
     Unauthorized handler
     """
@@ -63,7 +63,7 @@ def unauthorized_error(error) -> Response:
 
 
 @app.errorhandler(403)
-def forbidden_error(error) -> Response:
+def forbidden_error(error) -> str:
     """
     handle forbidden error
     """

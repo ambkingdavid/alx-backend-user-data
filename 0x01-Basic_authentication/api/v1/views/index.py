@@ -6,7 +6,7 @@ from api.v1.views import app_views
 
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
-def status() -> Response:
+def status() -> str:
     """ GET /api/v1/status
     Return:
       - the status of the API
@@ -15,7 +15,7 @@ def status() -> Response:
 
 
 @app_views.route('/stats/', strict_slashes=False)
-def stats() -> Response:
+def stats() -> str:
     """ GET /api/v1/stats
     Return:
       - the number of each objects
@@ -27,7 +27,7 @@ def stats() -> Response:
 
 
 @app_views.route('/unauthorized', strict_slashes=False)
-def unauthorised() -> Response:
+def unauthorised() -> str:
     """
     GET /api/v1/unauthorised
     """
@@ -38,7 +38,7 @@ def unauthorised() -> Response:
 
 
 @app_views.route('/forbidden', methods=['GET'])
-def trigger_forbidden_error() -> Response:
+def trigger_forbidden_error() -> str:
     """
     GET /api/v1/forbidden
     """

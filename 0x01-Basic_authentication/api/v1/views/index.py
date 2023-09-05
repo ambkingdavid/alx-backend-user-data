@@ -11,10 +11,7 @@ def status() -> str:
     Return:
       - the status of the API
     """
-    msg = {
-        "status": "OK"
-    }
-    return jsonify(msg)
+    return jsonify({"status": "OK"})
 
 
 @app_views.route('/stats/', strict_slashes=False)

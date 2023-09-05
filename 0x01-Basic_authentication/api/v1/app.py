@@ -47,15 +47,15 @@ def before_request():
     if auth.authorization_header(request) is None:
         # auth.logger.info("No header found")
         msg = {
-            "error": "Unauthorized"
-        }
+                "error": "Unauthorized"
+                }
         abort(401, msg)
 
     if auth.current_user(request) is None:
         # auth.logger.info("Cannot retrieve user")
         msg = {
-            "error": "Forbidden"
-        }
+                "error": "Forbidden"
+                }
         abort(403, msg)
 
 

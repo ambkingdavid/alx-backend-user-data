@@ -5,6 +5,8 @@ basic auth module
 
 import base64
 from api.v1.auth.auth import Auth
+from typing import TypeVar
+from models.user import User
 
 
 class BasicAuth(Auth):
@@ -57,3 +59,24 @@ class BasicAuth(Auth):
         email = user[0]
         password = user[1]
         return ((email, password))
+
+    def user_object_from_credentials(self,
+                                     user_email: str, user_pwd: str
+                                     ) -> TypeVar('User'):
+        """
+        gets a user object and return it
+        """
+        if user_email is None:
+            return None
+        if user_pwd is None:
+            return None
+        if User.search({"email": user_email}) is None:
+            return None
+        search = User.search({"email": user_email})
+        try:
+            user = search[0]
+            if not (user.is_valid_password(user_pwd)):
+                return None
+        except IndexError:
+            return None
+        return user

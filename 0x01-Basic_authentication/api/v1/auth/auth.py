@@ -2,7 +2,6 @@
 """
 Auth module
 """
-from flask import request
 from typing import List, TypeVar
 
 
@@ -29,9 +28,9 @@ class Auth():
             return None
         try:
             auth = request.headers.get("Authorization")
+            return auth
         except AttributeError:
             return None
-        return auth
 
     def current_user(self, request=None) -> TypeVar('User'):
         """

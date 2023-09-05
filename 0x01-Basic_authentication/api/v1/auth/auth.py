@@ -2,10 +2,11 @@
 """
 Auth module
 """
+from flask import request
 from typing import List, TypeVar
 
 
-class Auth():
+class Auth:
     """
     Auth class
     """

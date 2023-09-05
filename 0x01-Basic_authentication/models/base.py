@@ -88,6 +88,7 @@ class Base():
     def save(self):
         """ Save current object
         """
+        self.load_from_file()
         s_class = self.__class__.__name__
         self.updated_at = datetime.utcnow()
         DATA[s_class][self.id] = self

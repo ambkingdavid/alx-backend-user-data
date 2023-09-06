@@ -23,7 +23,7 @@ class Auth:
 
         if path not in excluded_paths:
             for excluded_path in excluded_paths:
-                if excluded_path.startswith(path[:-1]):
+                if path.startswith(excluded_path[:-1]):
                     return False
             return True
 

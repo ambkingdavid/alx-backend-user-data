@@ -2,7 +2,7 @@
 """ Module of Users views
 """
 from api.v1.views import app_views
-from flask import abort, jsonify, request, make_response
+from flask import jsonify, request
 from models.user import User
 import os
 
@@ -29,6 +29,6 @@ def session_login():
         from api.v1.app import auth
     session_id = auth.create_session(user_id)
     session_name = os.getenv("SESSION_NAME")
-    response = make_response(jsonify(user.to_json()), 200)
-    response.set_cookie(session_name, session_id)
-    return response
+    resp = jsonify(user.to_json())
+    resp.set_cookie(session_name, session_id)
+    return resp

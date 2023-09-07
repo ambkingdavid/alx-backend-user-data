@@ -47,8 +47,9 @@ def before_request():
         # auth.logger.info(f"request: {request.path}")
         return
 
-    if auth.authorization_header(request) is None and\
-      auth.session_cookie(request) is None:
+    if auth.authorization_header(request
+                                 ) is None and auth.session_cookie(request
+                                                                   ) is None:
         # auth.logger.info("No header found")
         msg = {
                 "error": "Unauthorized"

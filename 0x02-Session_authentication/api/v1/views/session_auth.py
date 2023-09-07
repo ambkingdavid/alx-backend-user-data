@@ -37,7 +37,8 @@ def session_login():
     return resp
 
 
-@app_views.route('/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/auth_session/logout', methods=['DELETE'],
+                 strict_slashes=False)
 def session_logout():
     """
     log user out and close the session

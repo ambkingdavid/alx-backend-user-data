@@ -14,7 +14,7 @@ class DB:
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -37,22 +37,22 @@ class DB:
         self._session.commit()
         return new_user
 
-    # def find_user_by(self, **kwargs) -> User:
-    #     """
-    #     find first user based on kwargs
-    #     """
-    #     user = self._session.query(User).filter_by(**kwargs).first()
-    #     if not user:
-    #         raise NoResultFound()
-    #     return user
+    def find_user_by(self, **kwargs) -> User:
+        """
+        find first user based on kwargs
+        """
+        user = self._session.query(User).filter_by(**kwargs).first()
+        if not user:
+            raise NoResultFound()
+        return user
 
-    # def update_user(self, user_id: int, **kwargs):
-    #     """
-    #     updates a user in the db
-    #     """
-    #     user = self.find_user_by(id=user_id)
-    #     for k, v in kwargs.items():
-    #         if not hasattr(user, k):
-    #             raise ValueError()
-    #         setattr(user, k, v)
-    #     self._session.commit()
+    def update_user(self, user_id: int, **kwargs):
+        """
+        updates a user in the db
+        """
+        user = self.find_user_by(id=user_id)
+        for k, v in kwargs.items():
+            if not hasattr(user, k):
+                raise ValueError()
+            setattr(user, k, v)
+        self._session.commit()

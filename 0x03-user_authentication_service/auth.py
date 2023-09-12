@@ -11,6 +11,14 @@ from user import User
 from sqlalchemy.orm.exc import NoResultFound
 
 
+def _generate_uuid() -> str:
+    """
+    generate a uuid str
+    """
+    new_id = str(uuid4())
+    return new_id
+
+
 def _hash_password(password: str) -> bytes:
     """
     hash a password and return bytes
@@ -56,14 +64,6 @@ class Auth:
                 return True
         except NoResultFound:
             return False
-        return False
-
-    def _generate_uuid(self) -> str:
-        """
-        generate a uuid str
-        """
-        new_id = str(uuid4())
-        return new_id
 
     def create_session(self, email: str) -> str:
         """

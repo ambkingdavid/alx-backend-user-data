@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 """DB module
 """
-import bcrypt
 from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-from sqlalchemy.exc import InvalidRequestError
-from sqlalchemy.orm.exc import NoResultFound
 
 from user import Base, User
 
@@ -31,8 +29,7 @@ class DB:
             DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
         return self.__session
-    
-    
+
     def add_user(self, email: str, hashed_password: str) -> User:
         """
         adds a user to the database
@@ -42,22 +39,22 @@ class DB:
         self._session.commit()
         return new_user
 
-    def find_user_by(self, **kwargs) -> User:
-        """
-        find first user based on kwargs
-        """
-        user = self._session.query(User).filter_by(**kwargs).first()
-        if not user:
-            raise NoResultFound()
-        return user
+    # def find_user_by(self, **kwargs) -> User:
+    #     """
+    #     find first user based on kwargs
+    #     """
+    #     user = self._session.query(User).filter_by(**kwargs).first()
+    #     if not user:
+    #         raise NoResultFound()
+    #     return user
 
-    def update_user(self, user_id: int, **kwargs):
-        """
-        updates a user in the db
-        """
-        user = self.find_user_by(id=user_id)
-        for k, v in kwargs.items():
-            if not hasattr(user, k):
-                raise ValueError()
-            setattr(user, k, v)
-        self._session.commit()
+    # def update_user(self, user_id: int, **kwargs):
+    #     """
+    #     updates a user in the db
+    #     """
+    #     user = self.find_user_by(id=user_id)
+    #     for k, v in kwargs.items():
+    #         if not hasattr(user, k):
+    #             raise ValueError()
+    #         setattr(user, k, v)
+    #     self._session.commit()

@@ -103,9 +103,9 @@ class Auth:
         get reset password token
         """
         try:
-            user = self._db.find_user_by(email)
+            user = self._db.find_user_by(email=email)
             id = _generate_uuid()
-            self._db.update_user(user.id, reset_token=id)
-            return id
+            self._db.update_user(user.id, session_id=id)
         except NoResultFound:
-            raise ValueError
+            raise ValueError()
+        return id

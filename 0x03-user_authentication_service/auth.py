@@ -11,7 +11,7 @@ from user import User
 from sqlalchemy.orm.exc import NoResultFound
 
 
-def _hash_password(self, password: str) -> bytes:
+def _hash_password(password: str) -> bytes:
     """
     hash a password and return bytes
     """

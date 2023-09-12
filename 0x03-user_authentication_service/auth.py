@@ -39,19 +39,11 @@ class Auth:
             msg = f"User {email} already exists"
             raise ValueError(msg)
         except NoResultFound:
-            passwd = self._hash_password(password)
+            passwd = _hash_password(password)
             user = self._db.add_user(email, passwd)
             self._db._session.add(user)
             self._db._session.commit()
             return user
-
-    def _hash_password(self, password: str) -> bytes:
-        """
-        hash a password and return bytes
-        """
-        salt = bcrypt.gensalt()
-        hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
-        return hashed_password
 
     def valid_login(self, email: str, password: str) -> bool:
         """

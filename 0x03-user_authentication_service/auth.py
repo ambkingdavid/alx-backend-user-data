@@ -16,6 +16,9 @@ class Auth:
     """
 
     def __init__(self):
+        """
+        initialize
+        """
         self._db = DB()
 
     def register_user(self, email: str, password: str) -> User:
@@ -40,7 +43,7 @@ class Auth:
         salt = bcrypt.gensalt()
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
         return hashed_password
-    
+
     def valid_login(self, email: str, password: str) -> bool:
         """
         validate a login session
@@ -73,7 +76,7 @@ class Auth:
         except NoResultFound:
             pass
         return None
-    
+
     def get_user_from_session_id(self, session_id: str) -> User:
         """
         gets a user using the session id

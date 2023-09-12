@@ -55,7 +55,7 @@ class Auth:
             if bcrypt.checkpw(pwd, user.hashed_password):
                 return True
         except NoResultFound:
-            pass
+            return False
         return False
 
     def _generate_uuid(self) -> str:

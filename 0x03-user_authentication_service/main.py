@@ -3,6 +3,7 @@
 Main file
 """
 import requests
+from time import sleep
 
 
 def register_user(email: str, password: str) -> None:
@@ -96,6 +97,7 @@ if __name__ == "__main__":
     session_id = log_in(EMAIL, PASSWD)
     profile_logged(session_id)
     log_out(session_id)
-    reset_token = reset_password_token(EMAIL)
+    sleep(10)
+    reset_token = None
     update_password(EMAIL, reset_token, NEW_PASSWD)
     log_in(EMAIL, NEW_PASSWD)

@@ -100,7 +100,7 @@ def update_password():
     updates a user's password
     """
     email = request.form.get('email')
-    reset_token = request.form.get('request_token')
+    reset_token = request.form.get('reset_token')
     new_password = request.form.get('new_password')
     try:
         AUTH.update_password(reset_token, new_password)
@@ -110,4 +110,4 @@ def update_password():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="5000")
+    app.run(host="0.0.0.0", port="5000", debug=True)
